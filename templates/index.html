@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tareas</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Sistema de Tareas Pendientes</h1>
+
+        <form action="/agregar" method="POST" class="formulario">
+
+            <input
+                type="text"
+                name="tarea"
+                placeholder="Escribe una tarea..."
+                required
+            >
+
+            <button type="submit">
+                Agregar
+            </button>
+
+        </form>
+
+        <div class="secciones">
+
+            <div class="card">
+
+                <h2>Pendientes</h2>
+
+                {% if pendientes %}
+
+                    <ul>
+
+                        {% for tarea in pendientes %}
+
+                            <li>
+
+                                <span>
+                                    {{ tarea.nombre }}
+                                </span>
+
+                                <div>
+
+                                    <a href="/completar/{{ tarea._id }}">
+                                        ✅
+                                    </a>
+
+                                    <a href="/eliminar/{{ tarea._id }}">
+                                        ❌
+                                    </a>
+
+                                </div>
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                {% else %}
+
+                    <p>No hay tareas pendientes</p>
+
+                {% endif %}
+
+            </div>
+
+            <div class="card">
+
+                <h2>Completadas</h2>
+
+                {% if completadas %}
+
+                    <ul>
+
+                        {% for tarea in completadas %}
+
+                            <li>
+
+                                <span class="completada">
+                                    {{ tarea.nombre }}
+                                </span>
+
+                                <a href="/eliminar/{{ tarea._id }}">
+                                    ❌
+                                </a>
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                {% else %}
+
+                    <p>No hay tareas completadas</p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
