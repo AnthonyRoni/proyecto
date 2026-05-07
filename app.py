@@ -5,14 +5,16 @@ import os
 
 app = Flask(__name__)
 
-# URI de Mongo Atlas
-MONGO_URI = os.environ.get("MONGO_URI")
+# Conexión Mongo Atlas
+MONGO_URI = "mongodb+srv://anthonycastillopatron_db_user:contraseña123@cluster0.mrsxfnk.mongodb.net/?retryWrites=true&w=majority"
 
 client = MongoClient(MONGO_URI)
 
 db = client["sistema_tareas"]
 coleccion = db["tareas"]
 
+
+# Página principal
 @app.route('/')
 def index():
 
@@ -30,6 +32,8 @@ def index():
         completadas=completadas
     )
 
+
+# Agregar tarea
 @app.route('/agregar', methods=['POST'])
 def agregar():
 
@@ -44,6 +48,8 @@ def agregar():
 
     return redirect('/')
 
+
+# Completar tarea
 @app.route('/completar/<id>')
 def completar(id):
 
@@ -54,6 +60,8 @@ def completar(id):
 
     return redirect('/')
 
+
+# Eliminar tarea
 @app.route('/eliminar/<id>')
 def eliminar(id):
 
@@ -63,5 +71,7 @@ def eliminar(id):
 
     return redirect('/')
 
+
+# Ejecutar aplicación
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
