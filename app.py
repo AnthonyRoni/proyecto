@@ -5,8 +5,11 @@ import os
 
 app = Flask(__name__)
 
-# Conexión Mongo Atlas
-MONGO_URI = "mongodb+srv://anthonycastillopatron_db_user:contraseña123@cluster0.mrsxfnk.mongodb.net/?retryWrites=true&w=majority"
+# Conexión MongoDB Atlas
+MONGO_URI = os.environ.get(
+    "MONGO_URI",
+    "mongodb+srv://anthonycastillopatron_db_user:contraseña123@cluster0.mrsxfnk.mongodb.net/?retryWrites=true&w=majority"
+)
 
 client = MongoClient(MONGO_URI)
 
@@ -39,17 +42,29 @@ def agregar():
 
     nombre = request.form['tarea']
 
-    nueva_tarea = {
+    coleccion.insert_one({
         "nombre": nombre,
         "completada": False
-    }
-
-    coleccion.insert_one(nueva_tarea)
+    })
 
     return redirect('/')
 
 
-# Completar tarea
+# Actualizar nombre de tarea
+@app.route('/actualizar/<id>', methods=['POST'])
+def actualizar(id):
+
+    nuevo_nombre = request.form['nuevo_nombre']
+
+    coleccion.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {"nombre": nuevo_nombre}}
+    )
+
+    return redirect('/')
+
+
+# Marcar como completada
 @app.route('/completar/<id>')
 def completar(id):
 
@@ -74,4 +89,5 @@ def eliminar(id):
 
 # Ejecutar aplicación
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
