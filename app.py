@@ -75,7 +75,17 @@ def completar(id):
 
     return redirect('/')
 
+@app.route("/editar/<id>", methods=["POST"])
+def editar(id):
+    nuevo_nombre = request.form["nuevo_nombre"]
 
+    tareas.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {"nombre": nuevo_nombre}}
+    )
+
+    return redirect("/")
+    
 # Eliminar tarea
 @app.route('/eliminar/<id>')
 def eliminar(id):
