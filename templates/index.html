@@ -30,6 +30,7 @@
 
         <div class="secciones">
 
+            <!-- TAREAS PENDIENTES -->
             <div class="card">
 
                 <h2>Pendientes</h2>
@@ -42,18 +43,29 @@
 
                             <li>
 
-                                <span>
-                                    {{ tarea.nombre }}
-                                </span>
+                                <form action="/editar/{{ tarea._id }}" method="POST" class="editar-form">
 
-                                <div>
+                                    <input
+                                        type="text"
+                                        name="nuevo_nombre"
+                                        value="{{ tarea.nombre }}"
+                                        required
+                                    >
+
+                                    <button type="submit">
+                                        Guardar
+                                    </button>
+
+                                </form>
+
+                                <div class="acciones">
 
                                     <a href="/completar/{{ tarea._id }}">
-                                        Completada
+                                        ✅ Completada
                                     </a>
 
                                     <a href="/eliminar/{{ tarea._id }}">
-                                        Eliminar
+                                        ❌ Eliminar
                                     </a>
 
                                 </div>
@@ -72,6 +84,7 @@
 
             </div>
 
+            <!-- TAREAS COMPLETADAS -->
             <div class="card">
 
                 <h2>Completadas</h2>
@@ -84,13 +97,28 @@
 
                             <li>
 
-                                <span class="completada">
-                                    {{ tarea.nombre }}
-                                </span>
+                                <form action="/editar/{{ tarea._id }}" method="POST" class="editar-form">
 
-                                <a href="/eliminar/{{ tarea._id }}">
-                                    ❌
-                                </a>
+                                    <input
+                                        type="text"
+                                        name="nuevo_nombre"
+                                        value="{{ tarea.nombre }}"
+                                        required
+                                    >
+
+                                    <button type="submit">
+                                        Guardar
+                                    </button>
+
+                                </form>
+
+                                <div class="acciones">
+
+                                    <a href="/eliminar/{{ tarea._id }}">
+                                        ❌ Eliminar
+                                    </a>
+
+                                </div>
 
                             </li>
 
